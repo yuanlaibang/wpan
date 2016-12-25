@@ -95,3 +95,20 @@ exports.Signup = function(req, res){
     }
 
 }
+
+/**
+ * [Logout 注销]
+ */
+exports.Logout = function(req, res){
+
+    if(req.session.token){
+        req.session.token = ""
+        req.session.users = ""
+    }
+
+    res.json({
+        code:0,
+        message:"注销成功！"
+    })
+      
+}
