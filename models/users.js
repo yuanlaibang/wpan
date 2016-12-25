@@ -26,6 +26,18 @@ module.exports = {
     });
   },
   /**
+   * [getUserNumByEmail 通过邮箱查看是否存在]
+   */
+  getUserNumByEmail:function(email, callback){
+    conn.query("SELECT COUNT(1) AS num FROM user_accounts WHERE email = ?", [email], function (err, result) {
+        if (err) {
+          console.log(`error in getUserInfoByEmail :`,err);
+          return callback(err,result);
+        }
+        callback(err,result);
+    });
+  },
+  /**
    * [addUsers 添加用户信息]
    * @param {[type]}   userdt   [用户信息数据]
    * @param {Function} callback [回调函数]
