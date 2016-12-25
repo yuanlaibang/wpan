@@ -2,6 +2,7 @@ var view_index = require('./index');
 var view_users = require('./users');
 
 var api_users   = require('../controllers/users');
+var api_sign   = require('../controllers/sign');
 
 
 module.exports = function (app) {
@@ -15,6 +16,8 @@ module.exports = function (app) {
      * API 路由
      */
     // 用户
+    app.post('/api/signin',api_sign.Signin);
+    app.post('/api/signup',api_sign.Signup);
     app.get('/api/user/:user_id',api_users.UserInfo);
     // app.get('/api/user',api_users.UserList);
 

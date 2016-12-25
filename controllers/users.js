@@ -5,7 +5,7 @@ var User = require('../models/users');
  */
 exports.UserInfo = function(req, res){
     var uid = req.body.uid || req.query.uid;
-    User.getUserInfo(uid,function(err,results){
+    User.getUserInfoById(uid,function(err,results){
         if(err){
             return res.json({
                 code:err.errno,
