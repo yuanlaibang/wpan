@@ -4,7 +4,15 @@ var User = require('../models/users');
  * [userinfo 获取用户信息]
  */
 exports.UserInfo = function(req, res){
-    var uid = req.body.uid || req.query.uid;
+    var uid = req.params.user_id;
+
+    if(!uid){
+        return res.json({
+            code:110,
+            message:"请传用户ID！"
+        })
+    }
+
     User.getUserInfoById(uid,function(err,results){
         if(err){
             return res.json({
@@ -13,6 +21,7 @@ exports.UserInfo = function(req, res){
             })
         }
         if(results!=null&&results&&results.length>0){
+            delete results[0].password;
             res.json({
                 code:0,
                 data:results[0]
