@@ -12,7 +12,8 @@ exports.Signin = function(req, res){
         return res.json({
             code:0,
             token:req.session.token,
-            message:req.session.users
+            message:"登录成功！",
+            data:req.session.users
         })
     }
 
@@ -23,7 +24,7 @@ exports.Signin = function(req, res){
         })
         if(!result||result.length === 0) return res.json({
             code:110,
-            message:"用户名或密码错误"
+            message:"该用户没有注册！"
         })
         var usersdt = result[0];
 
@@ -33,12 +34,13 @@ exports.Signin = function(req, res){
         })
         var token = jwt.sign(usersdt.id+new Date().getTime(), 'wpan19870403');
         req.session.token = token;
-        req.session.users = result[0];
+        req.session.users = usersdt;
         delete usersdt.password;
         res.json({
             code:0,
             token:token,
-            message:result[0]
+            message:"登录成功！",
+            data:usersdt
         })
     })
 }
@@ -60,14 +62,36 @@ exports.Signup = function(req, res){
             message:"请传入正确的参数！"
         })
     }
-    users.addUsers(query,function(err,result){
-        if(err) return res.json({
-            code:err.errno,
-            message:err.code
+
+    if(userdt.email){
+        users.getUserInfoByEmail(userdt.email,function(err,result){
+            if(err) return res.json({
+                code:err.errno,
+                message:err.code
+            })
+            if(result&&result.length>0){
+                return res.json({
+                    code:1101,
+                    message:"邮箱已存在！"
+                }) 
+            }
+            users.addUsers(query,function(err,result){
+                if(err) return res.json({
+                    code:err.errno,
+                    message:err.code
+                })
+                res.json({
+                    code:0,
+                    message:"添加成功！"
+                })
+            });
+
         })
+    }else{
         res.json({
-            code:0,
-            message:"添加成功！"
-        })
-    });
+            code:1101,
+            message:"请填写邮箱地址！"
+        }) 
+    }
+
 }
