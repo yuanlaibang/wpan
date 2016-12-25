@@ -112,3 +112,32 @@ exports.Logout = function(req, res){
     })
       
 }
+
+/**
+ * [VerifyToken 验证登录信息]
+ */
+exports.VerifyToken = function(req, res){
+    var token = req.params.token;
+    var message = '';
+    if(!req.session.token) message = "没有登录请登录！";
+    if(!token) message = "请传参数！";
+    if(token!==req.session.token) message = "token不存在！";
+    if(message){
+       return res.json({
+            code:12001,
+            message:message
+        }) 
+    }
+
+    if(token==req.session.token){
+       return res.json({
+            code:0,
+            message:'已登录！'
+        }) 
+    }else{
+       return res.json({
+            code:12003,
+            message:'没有登录请登录！'
+        }) 
+    } 
+}

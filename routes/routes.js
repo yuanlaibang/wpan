@@ -19,6 +19,7 @@ module.exports = function (app) {
     app.post('/api/signin',api_sign.Signin);
     app.post('/api/signup',api_sign.Signup);
     app.put('/api/logout',api_sign.Logout);
+    app.get('/api/verify/:token',api_sign.VerifyToken);
     app.get('/api/user/:user_id',api_users.UserInfo);
     // app.get('/api/user',api_users.UserList);
 
