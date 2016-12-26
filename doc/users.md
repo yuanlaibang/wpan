@@ -49,7 +49,7 @@
 
 ## 用户注册
 
-> `POST` `/api/user/`  
+> `POST` `/api/signup`  
 
 **raw params**
 
